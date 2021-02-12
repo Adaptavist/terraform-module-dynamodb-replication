@@ -16,3 +16,23 @@ All resources should be deleted once the dynamoDB replication is no longer requi
 let terraform tidy the resources up)
 * Disable the source table dynamoDB stream
 * Remove the role created as part of pre-req 
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| enabled | Indicates if the replication is enabled | `bool` | `false` | no |
+| namespace | Namespace this resources belong to | `string` | n/a | yes |
+| source\_table\_name | Source Dynamo DB table name | `string` | n/a | yes |
+| source\_table\_stream\_arn | Source Dynamo DB table stream ARN | `string` | n/a | yes |
+| stage | Deployment stage | `string` | n/a | yes |
+| tags | A map of tags to assign to the resource. | `map(string)` | n/a | yes |
+| target\_account | Target AWS Account Number | `string` | n/a | yes |
+| target\_dynamodb\_table\_name | Target DynamoDB Table name | `string` | n/a | yes |
+| target\_region | The region for the target DynamoDB table | `string` | n/a | yes |
+| target\_role\_name | Target IAM Role name to be assumed by Lambda function and a Glue job | `string` | n/a | yes |
+
+## Outputs
+
+No output.
+

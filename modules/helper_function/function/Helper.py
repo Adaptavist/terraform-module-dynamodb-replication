@@ -2,6 +2,7 @@ import os
 import boto3
 from datetime import datetime
 
+
 def lambda_handler(event, context):
     # Environment Variables
     replication_function_name = os.environ['ONGOING_REPLICATION_FUNCTION_NAME']
@@ -9,6 +10,8 @@ def lambda_handler(event, context):
     ssm_workflow_status = os.environ['SSM_WORKFLOW_STATUS']
 
     ssm_param_started_date = ssm_workflow_status.replace('workflow_status', 'started_date')
+
+    datetime_format = '%Y-%m-%d %H:%M:%S.%f'
 
     # This function is performing one of the following actions:
     # get workflow status (SSM param)
@@ -25,10 +28,10 @@ def lambda_handler(event, context):
             WithDecryption=False
         )
 
-        max_age = (datetime.strptime(started_date['Parameter']['Value'], '%Y-%m-%d %H:%M:%S.%f') - datetime.now())\
-            .total_seconds()
+        max_age = int((datetime.now() - datetime.strptime(started_date['Parameter']['Value'], datetime_format))
+                      .total_seconds()) + 120
 
-        enable_ongoing_replication(ssm_event_source_mapping_uuid,
+        enable_ongoing_replication(ssm_client, ssm_event_source_mapping_uuid,
                                    replication_function_name, max_age)
     else:
         if action == 'get_workflow_status':
@@ -40,7 +43,7 @@ def lambda_handler(event, context):
             if ws_value == 'enabled':
                 ssm_client.put_parameter(
                     Name=ssm_param_started_date,
-                    Value=datetime.now(),
+                    Value=datetime.now().strftime(datetime_format),
                     Overwrite=True,
                     Type='String'
                 )

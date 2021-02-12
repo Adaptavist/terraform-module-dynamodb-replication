@@ -26,7 +26,7 @@ data "aws_iam_policy_document" "lambda_policy" {
       "ssm:*"
     ]
     resources = [
-      var.ssm_workflow_status_parameter_arn
+      "*"
     ]
   }
   statement {
@@ -36,6 +36,15 @@ data "aws_iam_policy_document" "lambda_policy" {
     ]
     resources = [var.ongoing_replication_lambda_arn]
   }
+  statement {
+    effect = "Allow"
+    actions = [
+      "lambda:UpdateEventSourceMapping"
+    ]
+    resources = [
+      "arn:aws:lambda:${data.aws_region.this.name}:${data.aws_caller_identity.this.account_id}:event-source-mapping:${var.event_source_mapping_uuid}"
+    ]
+  }
 }
 
 resource "aws_iam_role_policy" "this" {
@@ -43,3 +52,6 @@ resource "aws_iam_role_policy" "this" {
   policy      = data.aws_iam_policy_document.lambda_policy.json
   role        = module.helper_lambda.lambda_role_name
 }
+
+data "aws_caller_identity" "this" {}
+data "aws_region" "this" {}

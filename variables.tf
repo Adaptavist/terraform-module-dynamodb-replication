@@ -52,7 +52,7 @@ variable "stage" {
 
 variable "glue_worker_type" {
   type        = string
-  default     = "G2.X"
+  default     = "G.2X"
   description = "Glue worker type. See https://docs.aws.amazon.com/glue/latest/dg/add-job.html"
 }
 

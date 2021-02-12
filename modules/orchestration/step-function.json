@@ -33,7 +33,10 @@
       "Type": "Task",
       "Resource": "arn:aws:states:::glue:startJobRun.sync",
       "Parameters": {
-        "JobName": "${glue_job_name}"
+        "JobName": "${glue_job_name}",
+        "Arguments": {
+          "--JOB_ENABLED": "True"
+        }
       },
       "Next": "EnableReplication"
     },

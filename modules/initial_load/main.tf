@@ -1,8 +1,12 @@
 data "aws_caller_identity" "this" {}
 data "aws_region" "this" {}
 
+locals {
+  glue_job_name = "InitialLoad-${var.target_account}-${var.target_region}-${var.target_dynamodb_table_name}"
+}
+
 resource "aws_s3_bucket" "glue_code" {
-  bucket_prefix = "-${var.target_dynamodb_table_name}-replication-glue-code"
+  bucket_prefix = "${var.target_dynamodb_table_name}-repl-glue-code"
   acl           = "private"
   server_side_encryption_configuration {
     rule {
@@ -18,13 +22,13 @@ resource "aws_s3_bucket" "glue_code" {
 resource "aws_s3_bucket_object" "code" {
   bucket                 = aws_s3_bucket.glue_code.id
   key                    = "InitialLoad.py"
-  source                 = "glue_job/InitialLoad.py"
+  source                 = "${path.module}/glue_job/InitialLoad.py"
   server_side_encryption = "AES256"
 }
 
 resource "aws_glue_job" "initial_load" {
-  name     = "InitialLoad-${var.target_dynamodb_table_name}"
-  role_arn = "arn:aws:iam::${var.target_account}:role/${var.target_role_name}"
+  name     = local.glue_job_name
+  role_arn = aws_iam_role.glue_job_role.arn
 
   command {
     name            = "glueetl"
@@ -52,7 +56,7 @@ resource "aws_glue_job" "initial_load" {
 }
 
 resource "aws_iam_role" "glue_job_role" {
-  name               = aws_glue_job.initial_load.name
+  name               = local.glue_job_name
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy_document.json
 }
 

@@ -3,7 +3,7 @@ module "replication-lambda" {
   version = "1.8.0"
 
   description                        = "Lambda performing ongoing replication between ${var.source_table_stream_arn} and ${var.target_dynamodb_table_name}"
-  function_name                      = "dynamodb-replication-${var.target_dynamodb_table_name}"
+  function_name                      = "dynamodb-replication-${var.target_account}-${var.target_region}-${var.target_dynamodb_table_name}"
   disable_label_function_name_prefix = true
   lambda_code_dir                    = "${path.module}/function"
   handler                            = "ReplayFromStream.lambda_handler"
@@ -55,9 +55,9 @@ data "aws_iam_policy_document" "lambda_policy" {
 }
 
 resource "aws_iam_role_policy" "this" {
-  name   = "dynamodb_replication_${var.target_dynamodb_table_name}"
-  policy = data.aws_iam_policy_document.lambda_policy.json
-  role   = module.replication-lambda.lambda_role_name
+  name_prefix = "dynamodb_replication_${var.target_dynamodb_table_name}"
+  policy      = data.aws_iam_policy_document.lambda_policy.json
+  role        = module.replication-lambda.lambda_role_name
 }
 
 resource "aws_lambda_event_source_mapping" "this" {

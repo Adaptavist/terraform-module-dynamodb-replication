@@ -1,7 +1,7 @@
 data "aws_region" "this" {}
 
 resource "aws_sfn_state_machine" "sfn_state_machine" {
-  name     = "dynamodb_replication_"
+  name     = "dynamodb_replication_${var.target_account}_${var.target_region}_${var.target_dynamodb_table_name}"
   role_arn = aws_iam_role.step-function-exec.arn
   tags     = var.tags
 
@@ -23,7 +23,7 @@ data "aws_iam_policy_document" "step-function-assume-role" {
 }
 
 resource "aws_iam_role" "step-function-exec" {
-  name_prefix        = "step-function-exec"
+  name_prefix        = "dynamodb_replication_sf_exec"
   assume_role_policy = data.aws_iam_policy_document.step-function-assume-role.json
   tags               = var.tags
 }
@@ -84,7 +84,7 @@ resource "aws_iam_role_policy_attachment" "step_function_invoke" {
 
 // allow state machine to invoke lambdas
 
-resource "aws_lambda_permission" "allow_sfn_invoke_helper" {
+resource "aws_lambda_permission" "allow_sfn_invoke_lambda" {
   statement_id  = "AllowExecutionFromStateMachine"
   action        = "lambda:InvokeFunction"
   function_name = var.helper_function_name
@@ -93,7 +93,7 @@ resource "aws_lambda_permission" "allow_sfn_invoke_helper" {
 }
 
 
-data "aws_iam_policy_document" "invoke_lambda" {
+data "aws_iam_policy_document" "step_function_policy" {
   statement {
     actions = [
       "lambda:InvokeFunction"
@@ -102,14 +102,21 @@ data "aws_iam_policy_document" "invoke_lambda" {
       var.helper_lambda_arn
     ]
   }
+  statement {
+    actions = [
+      "glue:StartJobRun",
+      "glue:GetJobRun",
+      "glue:GetJobRuns",
+      "glue:BatchStopJobRun"
+    ]
+    resources = [
+      var.glue_job_arn
+    ]
+  }
 }
 
-resource "aws_iam_policy" "invoke_lambdas" {
+resource "aws_iam_role_policy" "invoke_lambdas" {
   name_prefix = "invoke-lambdas"
-  policy      = data.aws_iam_policy_document.invoke_lambda.json
-}
-
-resource "aws_iam_role_policy_attachment" "allow_sfn_invoke_lambda" {
-  role       = aws_iam_role.step-function-exec.name
-  policy_arn = aws_iam_policy.invoke_lambdas.arn
+  policy      = data.aws_iam_policy_document.step_function_policy.json
+  role        = aws_iam_role.step-function-exec.name
 }

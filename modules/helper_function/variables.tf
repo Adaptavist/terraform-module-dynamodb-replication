@@ -52,3 +52,8 @@ variable "ssm_param_name_source_workflow_status" {
   type        = string
   description = "Name of the SSM parameter holding the workflow status"
 }
+
+variable "event_source_mapping_uuid" {
+  type        = string
+  description = "Event source mapping uuid"
+}

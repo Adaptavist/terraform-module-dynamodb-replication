@@ -17,3 +17,23 @@ variable "glue_job_name" {
   type        = string
   description = "Initial load glue job name"
 }
+
+variable "glue_job_arn" {
+  type        = string
+  description = "Initial load glue job ARN"
+}
+
+variable "target_region" {
+  type        = string
+  description = "The region for the target DynamoDB table"
+}
+
+variable "target_account" {
+  type        = string
+  description = "Target AWS Account Number"
+}
+
+variable "target_dynamodb_table_name" {
+  type        = string
+  description = "Target DynamoDB Table name"
+}

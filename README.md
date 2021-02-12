@@ -1,8 +1,8 @@
 # Terraform module that manages DynamoDB data migration and ongoing replication 
 
 Based on:
-* https://aws.amazon.com/blogs/database/cross-account-replication-with-amazon-dynamodb/
-* https://github.com/aws-samples/cross-account-amazon-dynamodb-replication
+- https://aws.amazon.com/blogs/database/cross-account-replication-with-amazon-dynamodb/
+- https://github.com/aws-samples/cross-account-amazon-dynamodb-replication
 
 ## Pre-requisites
 * Enable dynamoDB streams on the source dynamoDB table

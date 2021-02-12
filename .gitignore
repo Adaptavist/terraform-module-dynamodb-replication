@@ -1,0 +1,7 @@
+*.tfstate
+*.backup
+.terraform*
+.idea
+.terragrunt-cache/
+_backend.tf
+.DS_Store

@@ -1,0 +1,72 @@
+{
+  "Comment": "State machine for dynamo db replication",
+  "StartAt": "CheckWorkflowStatus",
+  "States": {
+    "CheckWorkflowStatus": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${helper_lambda_arn}",
+        "Payload": {
+          "parameters": {
+            "action": "get_workflow_status"
+          }
+        }
+      },
+      "ResultPath": "$.response",
+      "Next": "ProceedCheck"
+    },
+    "ProceedCheck": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Variable": "$.response.Payload.workflow_status",
+            "StringEquals": "enabled"
+          },
+          "Next": "Skipped"
+        }
+      ],
+      "Default": "PerformInitialLoad"
+    },
+    "PerformInitialLoad": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Parameters": {
+        "JobName": "${glue_job_name}"
+      },
+      "Next": "EnableReplication"
+    },
+    "EnableReplication": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${helper_lambda_arn}",
+        "Payload": {
+          "parameters": {
+            "action": "enable_ongoing_replication"
+          }
+        }
+      },
+      "Next": "UpdateWorkflowStatus"
+    },
+    "UpdateWorkflowStatus": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "${helper_lambda_arn}",
+        "Payload": {
+          "parameters": {
+            "action": "update_workflow_status",
+            "value": "replication_started"
+          }
+        }
+      },
+      "End": true
+    },
+    "Skipped": {
+      "Type": "Pass",
+      "End": true
+    }
+  }
+}

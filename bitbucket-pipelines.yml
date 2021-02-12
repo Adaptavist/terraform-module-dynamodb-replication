@@ -1,0 +1,23 @@
+image: adaptavist/all-tools:openjdk11-latest-0.13.5
+
+definitions:
+  tests: &test
+    name: Tests
+    script:
+      - terraform fmt -check -recursive -diff
+
+  release: &release
+    name: Release
+    caches:
+      - node
+    script:
+      - npm install --save-dev
+      - npx semantic-release -r ${BITBUCKET_GIT_HTTP_ORIGIN}
+
+pipelines:
+  default:
+    - step: *test
+  branches:
+    master:
+      - step: *test
+      - step: *release

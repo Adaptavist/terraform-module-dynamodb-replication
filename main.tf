@@ -21,6 +21,8 @@ module "initial_load" {
   target_dynamodb_table_name = var.target_dynamodb_table_name
   target_region              = var.target_region
   target_role_name           = var.target_role_name
+  glue_number_of_workers     = var.glue_number_of_workers
+  glue_worker_type           = var.glue_worker_type
 }
 
 module "ongoing_replication" {

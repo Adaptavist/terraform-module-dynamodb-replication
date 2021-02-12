@@ -32,8 +32,8 @@ resource "aws_glue_job" "initial_load" {
     python_version  = "3"
   }
 
-  number_of_workers = 145
-  worker_type       = "G2.X"
+  number_of_workers = var.glue_number_of_workers
+  worker_type       = var.glue_worker_type
   glue_version      = "2.0"
 
   execution_property {
@@ -46,8 +46,8 @@ resource "aws_glue_job" "initial_load" {
     "--TARGET_ROLE_NAME"          = var.target_role_name
     "--TARGET_REGION"             = var.target_region
     "--SOURCE_DYNAMODB_NAME"      = var.source_dynamodb_table_name
-    "--WORKER_TYPE"               = "G2.X"
-    "--NUM_WORKERS"               = 145
+    "--WORKER_TYPE"               = var.glue_worker_type
+    "--NUM_WORKERS"               = var.glue_number_of_workers
   }
 }
 

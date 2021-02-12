@@ -24,6 +24,8 @@ All resources should be deleted once the dynamoDB replication is no longer requi
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | enabled | Indicates if the replication is enabled | `bool` | `false` | no |
+| glue\_number\_of\_workers | Number of glue workers. See https://docs.aws.amazon.com/glue/latest/dg/add-job.html | `number` | `145` | no |
+| glue\_worker\_type | Glue worker type. See https://docs.aws.amazon.com/glue/latest/dg/add-job.html | `string` | `"G2.X"` | no |
 | namespace | Namespace this resources belong to | `string` | n/a | yes |
 | source\_table\_name | Source Dynamo DB table name | `string` | n/a | yes |
 | source\_table\_stream\_arn | Source Dynamo DB table stream ARN | `string` | n/a | yes |

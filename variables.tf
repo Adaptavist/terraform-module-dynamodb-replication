@@ -48,3 +48,16 @@ variable "stage" {
   type        = string
   description = "Deployment stage"
 }
+
+
+variable "glue_worker_type" {
+  type        = string
+  default     = "G2.X"
+  description = "Glue worker type. See https://docs.aws.amazon.com/glue/latest/dg/add-job.html"
+}
+
+variable "glue_number_of_workers" {
+  type        = number
+  default     = 145
+  description = "Number of glue workers. See https://docs.aws.amazon.com/glue/latest/dg/add-job.html"
+}

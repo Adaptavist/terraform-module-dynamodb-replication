@@ -27,3 +27,13 @@ variable "source_dynamodb_table_name" {
   type        = string
   description = "Source Dynamo DB table name"
 }
+
+variable "glue_worker_type" {
+  type        = string
+  description = "Glue worker type. See https://docs.aws.amazon.com/glue/latest/dg/add-job.html"
+}
+
+variable "glue_number_of_workers" {
+  type        = number
+  description = "Number of glue workers. See https://docs.aws.amazon.com/glue/latest/dg/add-job.html"
+}

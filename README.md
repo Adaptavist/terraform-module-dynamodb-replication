@@ -18,6 +18,9 @@ All resources should be deleted once the dynamoDB replication is no longer requi
  let terraform tidy the resources up)
  * Disable the source table dynamoDB stream
  * Remove the role created as part of pre-req 
+ 
+## Example
+Simple example setup can be found in the examples folder
 
 ## Inputs
 

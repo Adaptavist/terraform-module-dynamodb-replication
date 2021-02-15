@@ -124,4 +124,12 @@ data "aws_iam_policy_document" "glue_policy_document" {
       "${aws_s3_bucket.glue_code.arn}/*"
     ]
   }
+  statement {
+    sid    = "CloudWatch"
+    effect = "Allow"
+    actions = [
+      "cloudwatch:*"
+    ]
+    resources = ["*"]
+  }
 }

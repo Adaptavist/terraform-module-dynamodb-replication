@@ -115,8 +115,8 @@ data "aws_iam_policy_document" "step_function_policy" {
   }
 }
 
-resource "aws_iam_role_policy" "invoke_lambdas" {
-  name_prefix = "invoke-lambdas"
+resource "aws_iam_role_policy" "step_function" {
+  name_prefix = "step_function_permissions"
   policy      = data.aws_iam_policy_document.step_function_policy.json
   role        = aws_iam_role.step-function-exec.name
 }

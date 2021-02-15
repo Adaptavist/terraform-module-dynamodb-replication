@@ -1,10 +1,10 @@
 variable "target_account_role_name" {
-  type = string
+  type        = string
   description = "Target accoynt IAM role name that will be assumed by resources deployed in the source account. These resources will manage the migration"
 }
 
 variable "target_account_number" {
-  type = string
+  type        = string
   description = "Target account number"
 }
 

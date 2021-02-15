@@ -46,7 +46,7 @@ module "helper_function" {
   ongoing_replication_lambda_arn        = module.ongoing_replication.lambda_arn
   ongoing_replication_lambda_name       = module.ongoing_replication.lambda_name
   ssm_param_name_source_mapping_uuid    = module.ongoing_replication.ssm_event_source_mapping_uuid
-  event_source_mapping_uuid = module.ongoing_replication.event_source_mapping_uuid
+  event_source_mapping_uuid             = module.ongoing_replication.event_source_mapping_uuid
   ssm_param_name_source_workflow_status = aws_ssm_parameter.workflow_status.name
   ssm_workflow_status_parameter_arn     = aws_ssm_parameter.workflow_status.arn
   stage                                 = var.stage

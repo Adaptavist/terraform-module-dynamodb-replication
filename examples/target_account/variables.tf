@@ -4,11 +4,11 @@ variable "tags" {
 }
 
 variable "source_account_number" {
-  type = string
+  type        = string
   description = "Source account number"
 }
 
 variable "target_table_name" {
-  type = string
+  type        = string
   description = "Target table name"
 }

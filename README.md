@@ -5,6 +5,7 @@ Based on
  * https://aws.amazon.com/blogs/database/cross-account-replication-with-amazon-dynamodb/
  * https://github.com/aws-samples/cross-account-amazon-dynamodb-replication
 
+
 ![DynamoDB replication](dynamodb-replication.png "DynamoDB replication infrastructure diagram")
 
 ## Pre-requisites

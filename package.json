@@ -29,7 +29,13 @@
       "@semantic-release/changelog",
       "@semantic-release/commit-analyzer",
       "@semantic-release/git",
-      "@semantic-release/release-notes-generator"
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/exec",
+        {
+          "successCmd": "git push --mirror git@github.com:Adaptavist/terraform-module-dynamodb-replication.git"
+        }
+      ]
     ]
   },
   "commitlint": {

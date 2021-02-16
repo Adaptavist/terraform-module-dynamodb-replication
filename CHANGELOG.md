@@ -1,3 +1,10 @@
+## [1.0.4](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.0.3...v1.0.4) (2021-02-16)
+
+
+### Bug Fixes
+
+* allowing cross region replication ([83c4dc6](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/commits/83c4dc6ba27ef64e4be10c0b925fce21f0a9197b))
+
 ## [1.0.3](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.0.2...v1.0.3) (2021-02-16)
 
 

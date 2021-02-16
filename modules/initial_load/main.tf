@@ -6,7 +6,7 @@ locals {
 }
 
 resource "aws_s3_bucket" "glue_code" {
-  bucket_prefix = "${var.target_dynamodb_table_name}-repl-glue-code"
+  bucket_prefix = lower("${var.target_dynamodb_table_name}-repl-glue-code")
   acl           = "private"
   server_side_encryption_configuration {
     rule {

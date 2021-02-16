@@ -1,3 +1,10 @@
+## [1.0.2](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.0.1...v1.0.2) (2021-02-16)
+
+
+### Bug Fixes
+
+* added region to the workflow status param name ([cc0cb8e](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/commits/cc0cb8eb6c7b2fdd93e2ce82ae5eb7d77c41167e))
+
 ## [1.0.1](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.0.0...v1.0.1) (2021-02-16)
 
 

@@ -3,7 +3,7 @@ locals {
 }
 
 resource "aws_ssm_parameter" "workflow_status" {
-  name  = "/dynamodb_replication/${var.target_account}/${var.target_dynamodb_table_name}/workflow_status"
+  name  = "/dynamodb_replication/${var.target_account}/${var.target_account}/${var.target_dynamodb_table_name}/workflow_status"
   type  = "String"
   value = local.initial_workflow_status
   // allow the step function to manage the value

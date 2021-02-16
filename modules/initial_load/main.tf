@@ -50,6 +50,7 @@ resource "aws_glue_job" "initial_load" {
     "--TARGET_ROLE_NAME"          = var.target_role_name
     "--TARGET_REGION"             = var.target_region
     "--SOURCE_DYNAMODB_NAME"      = var.source_dynamodb_table_name
+    "--SOURCE_DYNAMODB_REGION"    = data.aws_region.this.name
     "--WORKER_TYPE"               = var.glue_worker_type
     "--NUM_WORKERS"               = var.glue_number_of_workers
   }

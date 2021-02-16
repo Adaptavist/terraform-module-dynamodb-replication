@@ -17,6 +17,7 @@ if job_enabled == 'True':
     target_ddb_name = args['TARGET_DYNAMODB_NAME']
     region = args['TARGET_REGION']
     source_ddb_name = args['SOURCE_DYNAMODB_NAME']
+    source_ddb_region = args['SOURCE_DYNAMODB_REGION']
     worker_type = args['WORKER_TYPE']
     num_workers = args['NUM_WORKERS']
 
@@ -42,7 +43,7 @@ if job_enabled == 'True':
     dyf = glue_context.create_dynamic_frame_from_options(
         connection_type="dynamodb",
         connection_options={
-            "dynamodb.region": region,
+            "dynamodb.region": source_ddb_region,
             "dynamodb.splits": str(ddb_split),
             "dynamodb.throughput.read.percent":"1.2",
             "dynamodb.input.tableName": source_ddb_name

@@ -80,7 +80,7 @@ def enable_ongoing_replication(ssm_client, ssm_event_source_mapping_uuid, replic
         Name=ssm_event_source_mapping_uuid,
         WithDecryption=False
     )
-    print('stream uuid: ' + uuid)
+    print('stream uuid: ' + uuid['Parameter']['Value'])
 
     lambda_client = boto3.client('lambda')
     try:

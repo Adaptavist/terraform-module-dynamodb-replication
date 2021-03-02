@@ -34,10 +34,10 @@ def lambda_handler(event, context):
             Name=ssm_param_started_date,
             WithDecryption=False
         )
-        print('started date: ' + started_date)
+        print('started date: ' + str(started_date))
         max_age = int((datetime.now() - datetime.strptime(started_date['Parameter']['Value'], datetime_format))
                       .total_seconds()) + 120
-        print('max_age: ' + max_age)
+        print('max_age: ' + str(max_age))
         enable_ongoing_replication(ssm_client, ssm_event_source_mapping_uuid,
                                    replication_function_name, max_age)
     else:

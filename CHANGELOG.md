@@ -1,3 +1,10 @@
+## [1.0.7](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.0.6...v1.0.7) (2021-03-02)
+
+
+### Bug Fixes
+
+* corrected string formatting ([7166a1a](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/commits/7166a1a9240da0a3e08e870f72fd26b252700b24))
+
 ## [1.0.6](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.0.5...v1.0.6) (2021-03-02)
 
 

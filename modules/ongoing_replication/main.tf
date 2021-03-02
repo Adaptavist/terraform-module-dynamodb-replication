@@ -62,7 +62,7 @@ resource "aws_iam_role_policy" "this" {
 
 resource "aws_lambda_event_source_mapping" "this" {
   event_source_arn              = var.source_table_stream_arn
-  function_name                 = module.replication-lambda.lambda_qualified_arn
+  function_name                 = module.replication-lambda.lambda_arn
   starting_position             = "TRIM_HORIZON"
   batch_size                    = 1000
   enabled                       = false
@@ -70,7 +70,7 @@ resource "aws_lambda_event_source_mapping" "this" {
 
   // allow the step function to enable event source mapping
   lifecycle {
-    ignore_changes = [enabled]
+    ignore_changes = [enabled, maximum_record_age_in_seconds]
   }
 }
 

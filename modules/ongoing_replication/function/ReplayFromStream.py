@@ -1,8 +1,9 @@
 import os
-import json
 import boto3
 
+
 def lambda_handler(event, context):
+    print('Replication triggered')
 
     # Environment Variables
     target_aws_account_num = os.environ['TARGET_AWS_ACCOUNT_NUMBER']
@@ -12,6 +13,11 @@ def lambda_handler(event, context):
 
     role_arn = "arn:aws:iam::%s:role/%s" % (target_aws_account_num,target_role_name)
 
+    print('target aws account: ' + target_aws_account_num)
+    print('target region: ' + target_ddb_region)
+    print('target table name: ' + target_ddb_name)
+    print('target role arn: ' + role_arn)
+
     sts_response = get_credentials(role_arn)
 
     dynamodb = boto3.client('dynamodb', region_name=target_ddb_region,
@@ -19,15 +25,19 @@ def lambda_handler(event, context):
                             aws_secret_access_key = sts_response['SecretAccessKey'],
                             aws_session_token = sts_response['SessionToken'])
 
-    Records = event['Records']
+    records = event['Records']
 
-    for record in Records:
+    for record in records:
         event_name = record['eventName']
+        try:
+            if event_name == 'REMOVE':
+                dynamodb.delete_item(TableName=target_ddb_name,Key=record['dynamodb']['Keys'])
+            else:
+                dynamodb.put_item(TableName=target_ddb_name,Item=record['dynamodb']['NewImage'])
+        except Exception as exc:
+            print('ERROR', exc)
+    print('finished all records')
 
-        if event_name == 'REMOVE':
-            response = dynamodb.delete_item(TableName=target_ddb_name,Key=record['dynamodb']['Keys'])
-        else:
-            response = dynamodb.put_item(TableName=target_ddb_name,Item=record['dynamodb']['NewImage'])
 
 def get_credentials(role_arn):
     # create an STS client object that represents a live connection to the

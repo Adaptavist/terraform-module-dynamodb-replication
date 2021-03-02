@@ -6,11 +6,13 @@ from awsglue.job import Job
 from awsglue.utils import getResolvedOptions
 
 args = getResolvedOptions(sys.argv, ['JOB_ENABLED', 'TARGET_DYNAMODB_NAME', 'SOURCE_DYNAMODB_NAME',
-                                     'TARGET_AWS_ACCOUNT_NUMBER', 'TARGET_ROLE_NAME', 'TARGET_REGION',
-                                     'WORKER_TYPE', 'NUM_WORKERS'])
+                                     'SOURCE_DYNAMODB_REGION', 'TARGET_AWS_ACCOUNT_NUMBER', 'TARGET_ROLE_NAME',
+                                     'TARGET_REGION', 'WORKER_TYPE', 'NUM_WORKERS'])
 
 job_enabled = args['JOB_ENABLED']
 if job_enabled == 'True':
+
+    print('### Starting the initial load')
 
     target_aws_account_num = args['TARGET_AWS_ACCOUNT_NUMBER']
     target_role_name = args['TARGET_ROLE_NAME']
@@ -32,13 +34,23 @@ if job_enabled == 'True':
         num_executers = (int(num_workers) - 1) * 2 - 1
         ddb_split = 4 * num_executers
 
-    print(str(ddb_split))
+    print('target aws account: ' + target_aws_account_num)
+    print('target region: ' + region)
+    print('target table name: ' + target_ddb_name)
+    print('target role arn: ' + target_role_arn)
+    print('source region: ' + source_ddb_region)
+    print('source table name: ' + source_ddb_name)
+    print('worker type: ' + worker_type)
+    print('number of workers: ' + num_workers)
+    print('ddb split: ' + str(ddb_split))
 
 
     args = getResolvedOptions(sys.argv, ["JOB_NAME"])
     glue_context= GlueContext(SparkContext.getOrCreate())
     job = Job(glue_context)
     job.init(args["JOB_NAME"], args)
+
+    print('Glue job initialised')
 
     dyf = glue_context.create_dynamic_frame_from_options(
         connection_type="dynamodb",
@@ -70,3 +82,4 @@ if job_enabled == 'True':
         }
     )
     job.commit()
+    print('Glue job committed')

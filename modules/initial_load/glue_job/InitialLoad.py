@@ -57,14 +57,15 @@ if job_enabled == 'True':
         connection_options={
             "dynamodb.region": source_ddb_region,
             "dynamodb.splits": str(ddb_split),
-            "dynamodb.throughput.read.percent":"1.2",
+            "dynamodb.throughput.read.percent": "1.2",
             "dynamodb.input.tableName": source_ddb_name
         }
     )
     dyf.show()
 
     sts_client = boto3.client('sts')
-    sts_response = sts_client.assume_role(RoleArn=target_role_arn, RoleSessionName='assume-role')
+    sts_response = sts_client.assume_role(RoleArn=target_role_arn, RoleSessionName='assume-role',
+                                          DurationSeconds=12*60*60)
 
     ddb_key = sts_response['Credentials']['AccessKeyId']
     ddb_secret = sts_response['Credentials']['SecretAccessKey']

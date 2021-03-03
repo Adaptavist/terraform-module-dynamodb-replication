@@ -1,3 +1,10 @@
+## [1.0.8](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.0.7...v1.0.8) (2021-03-02)
+
+
+### Bug Fixes
+
+* updated event source mapping lifecycle ([c9ce807](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/commits/c9ce807c40d292070db1671de73214801733e0d2))
+
 ## [1.0.7](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.0.6...v1.0.7) (2021-03-02)
 
 

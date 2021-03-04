@@ -10,7 +10,7 @@ locals {
 }
 
 resource "aws_s3_bucket" "glue_code" {
-  bucket_prefix = local.ideal_bucket_prefix
+  bucket_prefix = local.bucket_prefix
   acl           = "private"
   server_side_encryption_configuration {
     rule {

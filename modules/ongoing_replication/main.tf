@@ -1,9 +1,15 @@
+locals {
+  ideal_function_name = "dynamodb-replication-${var.target_account}-${var.target_region}-${var.target_dynamodb_table_name}"
+  function_name       = length(local.ideal_function_name) > 64 ? substr(local.ideal_function_name, 0, length(local.ideal_function_name) - 1) : local.ideal_function_name
+}
+
+
 module "replication-lambda" {
   source  = "Adaptavist/aws-lambda/module"
   version = "1.8.0"
 
   description                        = "Lambda performing ongoing replication between ${var.source_table_stream_arn} and ${var.target_dynamodb_table_name}"
-  function_name                      = "dynamodb-replication-${var.target_account}-${var.target_region}-${var.target_dynamodb_table_name}"
+  function_name                      = local.function_name
   disable_label_function_name_prefix = true
   lambda_code_dir                    = "${path.module}/function"
   handler                            = "ReplayFromStream.lambda_handler"

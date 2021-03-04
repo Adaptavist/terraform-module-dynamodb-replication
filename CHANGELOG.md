@@ -1,3 +1,10 @@
+## [1.0.9](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.0.8...v1.0.9) (2021-03-03)
+
+
+### Bug Fixes
+
+* increasing max session duration ([3aba26b](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/commits/3aba26b18a30e83044cf2b525014ae190153cb1a))
+
 ## [1.0.8](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.0.7...v1.0.8) (2021-03-02)
 
 

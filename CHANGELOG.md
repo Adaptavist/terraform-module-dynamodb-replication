@@ -1,3 +1,10 @@
+## [1.0.10](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.0.9...v1.0.10) (2021-03-04)
+
+
+### Bug Fixes
+
+* fixed long running initial replication session issues ([859d24d](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/commits/859d24d35214d0808ab1f8b6301cf274a6abb475))
+
 ## [1.0.9](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.0.8...v1.0.9) (2021-03-03)
 
 

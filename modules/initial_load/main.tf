@@ -3,10 +3,10 @@ data "aws_region" "this" {}
 
 locals {
   ideal_glue_job_name = "InitialLoad-${var.target_account}-${var.target_region}-${var.target_dynamodb_table_name}"
-  glue_job_name       = length(local.ideal_glue_job_name) > 64 ? substr(local.ideal_glue_job_name, 0, length(local.ideal_glue_job_name) - 1) : local.ideal_glue_job_name
+  glue_job_name       = length(local.ideal_glue_job_name) > 64 ? substr(local.ideal_glue_job_name, 0, 63) : local.ideal_glue_job_name
 
   ideal_bucket_prefix = lower("${var.target_dynamodb_table_name}-repl-glue-code")
-  bucket_prefix       = length(local.ideal_bucket_prefix) > 32 ? substr(local.ideal_bucket_prefix, 0, length(local.ideal_bucket_prefix) - 1) : local.ideal_bucket_prefix
+  bucket_prefix       = length(local.ideal_bucket_prefix) > 32 ? substr(local.ideal_bucket_prefix, 0, 31) : local.ideal_bucket_prefix
 }
 
 resource "aws_s3_bucket" "glue_code" {

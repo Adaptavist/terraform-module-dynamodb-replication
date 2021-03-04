@@ -57,8 +57,9 @@ resource "aws_glue_job" "initial_load" {
 }
 
 resource "aws_iam_role" "glue_job_role" {
-  name               = local.glue_job_name
-  assume_role_policy = data.aws_iam_policy_document.assume_role_policy_document.json
+  name                 = local.glue_job_name
+  assume_role_policy   = data.aws_iam_policy_document.assume_role_policy_document.json
+  max_session_duration = 12 * 60 * 60 // 12 hours
 }
 
 data "aws_iam_policy_document" "assume_role_policy_document" {

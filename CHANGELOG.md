@@ -1,3 +1,10 @@
+## [1.0.11](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.0.10...v1.0.11) (2021-03-04)
+
+
+### Bug Fixes
+
+* fixed issues with names that were too long ([d6a8659](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/commits/d6a865989f9703d7b0ef60cdc696f3b4f2002aaa))
+
 ## [1.0.10](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.0.9...v1.0.10) (2021-03-04)
 
 

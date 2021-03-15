@@ -115,7 +115,7 @@ data "aws_iam_policy_document" "step_function_policy" {
   }
   statement {
     actions = [
-    "events:*"
+      "events:*"
     ]
     resources = [
       "*"

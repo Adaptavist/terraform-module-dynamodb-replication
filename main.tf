@@ -22,15 +22,15 @@ data "aws_ssm_parameter" "workflow_status" {
 module "initial_load" {
   source = "./modules/initial_load"
 
-  tags                       = var.tags
-  destination_role_arn       = var.target_role_arn
-  destination_table_name     = var.target_dynamodb_table_name
-  log_retention_in_days      = 7
-  cpuUnits                   = 1024
-  memory                     = 2048
-  source_table_name          = var.source_table_name
-  stage                      = var.stage
-  stage_type                 = var.stage_type
+  tags                   = var.tags
+  destination_role_arn   = var.target_role_arn
+  destination_table_name = var.target_dynamodb_table_name
+  log_retention_in_days  = 7
+  cpuUnits               = 1024
+  memory                 = 2048
+  source_table_name      = var.source_table_name
+  stage                  = var.stage
+  stage_type             = var.stage_type
 }
 
 module "ongoing_replication" {

@@ -9,8 +9,7 @@ module "replication-lambda" {
   version = "1.8.0"
 
   description                        = "Lambda performing ongoing replication between ${var.source_table_stream_arn} and ${var.target_dynamodb_table_name}"
-  //function_name                      = local.function_name
-  function_name                      = "${local.function_name}-test"
+  function_name                      = local.function_name
   disable_label_function_name_prefix = true
   lambda_code_dir                    = "${path.module}/function"
   handler                            = "ReplayFromStream.lambda_handler"

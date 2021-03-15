@@ -1,7 +1,7 @@
 data "aws_region" "this" {}
 
 resource "aws_sfn_state_machine" "sfn_state_machine" {
-  name     = "dynamodb_replication_${var.target_account}_${var.target_region}_${var.target_dynamodb_table_name}-test"
+  name     = "dynamodb_replication_${var.target_account}_${var.target_region}_${var.target_dynamodb_table_name}"
   role_arn = aws_iam_role.step-function-exec.arn
   tags     = var.tags
 

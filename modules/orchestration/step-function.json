@@ -31,11 +31,21 @@
     },
     "PerformInitialLoad": {
       "Type": "Task",
-      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Resource": "arn:aws:states:::ecs:runTask.sync",
       "Parameters": {
-        "JobName": "${glue_job_name}",
-        "Arguments": {
-          "--JOB_ENABLED": "True"
+        "Cluster": "${cluster_name}",
+        "TaskDefinition": "${task_def}",
+        "LaunchType": "FARGATE",
+        "NetworkConfiguration": {
+          "AwsvpcConfiguration": {
+            "Subnets": [
+              "${subnet}"
+            ],
+            "SecurityGroups": [
+              "${sg}"
+            ],
+            "AssignPublicIp": "DISABLED"
+          }
         }
       },
       "Next": "EnableReplication"

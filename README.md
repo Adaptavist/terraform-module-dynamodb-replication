@@ -30,17 +30,18 @@ Simple example setup can be found in the examples folder
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | enabled | Indicates if the replication is enabled | `bool` | `false` | no |
-| glue\_number\_of\_workers | Number of glue workers. See https://docs.aws.amazon.com/glue/latest/dg/add-job.html | `number` | `145` | no |
-| glue\_worker\_type | Glue worker type. See https://docs.aws.amazon.com/glue/latest/dg/add-job.html | `string` | `"G2.X"` | no |
+| initial\_load\_sg | Security group for the initial load ECS task | `string` | n/a | yes |
+| initial\_load\_subnet | Subnet for the initial load ECS task | `string` | n/a | yes |
 | namespace | Namespace this resources belong to | `string` | n/a | yes |
 | source\_table\_name | Source Dynamo DB table name | `string` | n/a | yes |
 | source\_table\_stream\_arn | Source Dynamo DB table stream ARN | `string` | n/a | yes |
 | stage | Deployment stage | `string` | n/a | yes |
+| stage\_type | Deployment stage type | `string` | n/a | yes |
 | tags | A map of tags to assign to the resource. | `map(string)` | n/a | yes |
 | target\_account | Target AWS Account Number | `string` | n/a | yes |
 | target\_dynamodb\_table\_name | Target DynamoDB Table name | `string` | n/a | yes |
 | target\_region | The region for the target DynamoDB table | `string` | n/a | yes |
-| target\_role\_name | Target IAM Role name to be assumed by Lambda function and a Glue job | `string` | n/a | yes |
+| target\_role\_arn | Target IAM Role name to be assumed by Lambda function and a Glue job | `string` | n/a | yes |
 
 ## Outputs
 

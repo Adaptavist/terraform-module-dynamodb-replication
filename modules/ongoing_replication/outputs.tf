@@ -6,8 +6,14 @@ output "lambda_arn" {
   value = module.replication-lambda.lambda_arn
 }
 
+/*
 output "ssm_event_source_mapping_uuid" {
   value = aws_ssm_parameter.event_source_mapping_uuid.name
+}
+*/
+
+output "ssm_event_source_mapping_uuid" {
+  value = data.aws_ssm_parameter.event_source_mapping_uuid.name
 }
 
 output "event_source_mapping_uuid" {

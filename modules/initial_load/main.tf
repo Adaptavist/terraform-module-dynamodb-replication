@@ -1,141 +1,24 @@
-data "aws_caller_identity" "this" {}
-data "aws_region" "this" {}
+module "logging" {
+  source = "./logging"
 
-locals {
-  ideal_glue_job_name = "InitialLoad-${var.target_account}-${var.target_region}-${var.target_dynamodb_table_name}"
-  glue_job_name       = length(local.ideal_glue_job_name) > 64 ? substr(local.ideal_glue_job_name, 0, 63) : local.ideal_glue_job_name
-
-  ideal_bucket_prefix = lower("${var.target_dynamodb_table_name}-repl-glue-code")
-  bucket_prefix       = length(local.ideal_bucket_prefix) > 32 ? substr(local.ideal_bucket_prefix, 0, 31) : local.ideal_bucket_prefix
+  log_retention_in_days = var.log_retention_in_days
+  tags                  = var.tags
 }
 
-resource "aws_s3_bucket" "glue_code" {
-  bucket_prefix = local.bucket_prefix
-  acl           = "private"
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
-  force_destroy = true // so that the bucket can easily be destroyed once replication is not needed any more
-  tags          = var.tags
+module "service" {
+  source = "./task"
+
+  tags                   = var.tags
+  cw_log_group_arn       = module.logging.cw_log_group_arn
+  cw_log_group_name      = module.logging.cw_log_group_name
+  cpuUnits               = var.cpuUnits
+  destination_role_arn   = var.destination_role_arn
+  destination_table_name = var.destination_table_name
+  ecr_repo_name          = "cloud-dynamodb-copy"
+  ecr_repo_account       = "074742550667"
+  ecr_repo_region        = "us-west-2"
+  memory                 = var.memory
+  source_table_name      = var.source_table_name
 }
 
-resource "aws_s3_bucket_object" "code" {
-  bucket                 = aws_s3_bucket.glue_code.id
-  key                    = "InitialLoad.py"
-  source                 = "${path.module}/glue_job/InitialLoad.py"
-  server_side_encryption = "AES256"
-}
 
-resource "aws_glue_job" "initial_load" {
-  name     = local.glue_job_name
-  role_arn = aws_iam_role.glue_job_role.arn
-
-  command {
-    name            = "glueetl"
-    script_location = "s3://${aws_s3_bucket.glue_code.bucket}/InitialLoad.py"
-    python_version  = "3"
-  }
-
-  number_of_workers = var.glue_number_of_workers
-  worker_type       = var.glue_worker_type
-  glue_version      = "2.0"
-
-  execution_property {
-    max_concurrent_runs = 1
-  }
-
-  default_arguments = {
-    "--TARGET_DYNAMODB_NAME"      = var.target_dynamodb_table_name
-    "--TARGET_AWS_ACCOUNT_NUMBER" = var.target_account
-    "--TARGET_ROLE_NAME"          = var.target_role_name
-    "--TARGET_REGION"             = var.target_region
-    "--SOURCE_DYNAMODB_NAME"      = var.source_dynamodb_table_name
-    "--SOURCE_DYNAMODB_REGION"    = data.aws_region.this.name
-    "--WORKER_TYPE"               = var.glue_worker_type
-    "--NUM_WORKERS"               = var.glue_number_of_workers
-  }
-}
-
-resource "aws_iam_role" "glue_job_role" {
-  name                 = local.glue_job_name
-  assume_role_policy   = data.aws_iam_policy_document.assume_role_policy_document.json
-  max_session_duration = 12 * 60 * 60 // 12 hours
-}
-
-data "aws_iam_policy_document" "assume_role_policy_document" {
-  statement {
-    sid     = "AssumeRole"
-    effect  = "Allow"
-    actions = ["sts:AssumeRole"]
-
-    principals {
-      type        = "Service"
-      identifiers = ["glue.amazonaws.com"]
-    }
-  }
-}
-
-resource "aws_iam_role_policy" "glue_job_policy" {
-  policy = data.aws_iam_policy_document.glue_policy_document.json
-  role   = aws_iam_role.glue_job_role.id
-}
-
-data "aws_iam_policy_document" "glue_policy_document" {
-  statement {
-    sid    = "CrossAccountAssumeRole"
-    effect = "Allow"
-    actions = [
-      "sts:AssumeRole"
-    ]
-    resources = [
-      "arn:aws:iam::${var.target_account}:role/${var.target_role_name}"
-    ]
-  }
-  statement {
-    sid    = "DynamoDBReadOnly"
-    effect = "Allow"
-    actions = [
-      "dynamodb:BatchGetItem",
-      "dynamodb:DescribeTable",
-      "dynamodb:GetItem",
-      "dynamodb:Scan",
-      "dynamodb:Query"
-    ]
-    resources = [
-      "arn:aws:dynamodb:${data.aws_region.this.name}:${data.aws_caller_identity.this.account_id}:table/${var.source_dynamodb_table_name}"
-    ]
-  }
-  statement {
-    sid    = "ListTables"
-    effect = "Allow"
-    actions = [
-      "dynamodb:ListTables"
-    ]
-    resources = ["*"]
-  }
-  statement {
-    sid    = "S3Access"
-    effect = "Allow"
-    actions = [
-      "s3:GetObject",
-      "s3:PutObject",
-      "s3:DeleteObject",
-      "s3:GetObject"
-    ]
-    resources = [
-      "${aws_s3_bucket.glue_code.arn}/*"
-    ]
-  }
-  statement {
-    sid    = "CloudWatch"
-    effect = "Allow"
-    actions = [
-      "cloudwatch:*"
-    ]
-    resources = ["*"]
-  }
-}

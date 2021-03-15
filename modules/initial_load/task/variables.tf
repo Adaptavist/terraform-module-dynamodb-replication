@@ -1,3 +1,8 @@
+variable "tags" {
+  type        = map(string)
+  description = "A map of tags to assign to the resource"
+}
+
 variable "source_table_name" {
   type        = string
   description = "Source table name"
@@ -23,22 +28,27 @@ variable "memory" {
   description = "Fargate task definition memory"
 }
 
-variable "log_retention_in_days" {
-  type        = number
-  description = "Specifies the number of days you want to retain log events in the service log group"
-}
-
-variable "stage" {
+variable "cw_log_group_name" {
   type        = string
-  description = "Deployment stage i.e. environment name"
+  description = "Cloudwatch log group name"
 }
 
-variable "stage_type" {
+variable "cw_log_group_arn" {
   type        = string
-  description = "The type of workloads this stage is running"
+  description = "Cloudwatch log group ARN"
 }
 
-variable "tags" {
-  type        = map(string)
-  description = "A map of tags to assign to the resource."
+variable "ecr_repo_name" {
+  type        = string
+  description = "ECR repository name"
+}
+
+variable "ecr_repo_account" {
+  type        = string
+  description = "AWS Account where ECR repository is located"
+}
+
+variable "ecr_repo_region" {
+  type        = string
+  description = "AWS Account region where ECR repository is located"
 }

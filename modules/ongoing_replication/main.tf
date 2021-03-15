@@ -9,7 +9,8 @@ module "replication-lambda" {
   version = "1.8.0"
 
   description                        = "Lambda performing ongoing replication between ${var.source_table_stream_arn} and ${var.target_dynamodb_table_name}"
-  function_name                      = local.function_name
+  //function_name                      = local.function_name
+  function_name                      = "${local.function_name}-test"
   disable_label_function_name_prefix = true
   lambda_code_dir                    = "${path.module}/function"
   handler                            = "ReplayFromStream.lambda_handler"
@@ -80,8 +81,14 @@ resource "aws_lambda_event_source_mapping" "this" {
   }
 }
 
+data "aws_ssm_parameter" "event_source_mapping_uuid" {
+  name = "/dynamodb_replication/${var.target_account}/${var.target_region}/${var.target_dynamodb_table_name}/event_source_mapping_uuid"
+}
+
+/*
+
 resource "aws_ssm_parameter" "event_source_mapping_uuid" {
   name  = "/dynamodb_replication/${var.target_account}/${var.target_region}/${var.target_dynamodb_table_name}/event_source_mapping_uuid"
   type  = "String"
   value = aws_lambda_event_source_mapping.this.uuid
-}
+}*/

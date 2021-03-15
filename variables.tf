@@ -13,7 +13,7 @@ variable "target_account" {
   description = "Target AWS Account Number"
 }
 
-variable "target_role_name" {
+variable "target_role_arn" {
   type        = string
   description = "Target IAM Role name to be assumed by Lambda function and a Glue job"
 }
@@ -49,15 +49,17 @@ variable "stage" {
   description = "Deployment stage"
 }
 
-
-variable "glue_worker_type" {
+variable "stage_type" {
   type        = string
-  default     = "G.2X"
-  description = "Glue worker type. See https://docs.aws.amazon.com/glue/latest/dg/add-job.html"
+  description = "Deployment stage type"
 }
 
-variable "glue_number_of_workers" {
-  type        = number
-  default     = 145
-  description = "Number of glue workers. See https://docs.aws.amazon.com/glue/latest/dg/add-job.html"
+variable "initial_load_subnet" {
+  type        = string
+  description = "Subnet for the initial load ECS task"
+}
+
+variable "initial_load_sg" {
+  type        = string
+  description = "Security group for the initial load ECS task"
 }

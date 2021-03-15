@@ -13,16 +13,6 @@ variable "helper_function_name" {
   description = "Helper lambda name"
 }
 
-variable "glue_job_name" {
-  type        = string
-  description = "Initial load glue job name"
-}
-
-variable "glue_job_arn" {
-  type        = string
-  description = "Initial load glue job ARN"
-}
-
 variable "target_region" {
   type        = string
   description = "The region for the target DynamoDB table"
@@ -36,4 +26,24 @@ variable "target_account" {
 variable "target_dynamodb_table_name" {
   type        = string
   description = "Target DynamoDB Table name"
+}
+
+variable "initial_load_cluster_name" {
+  type        = string
+  description = "Cluster name for the initial load task"
+}
+
+variable "initial_load_task_def" {
+  type        = string
+  description = "initial load task definition"
+}
+
+variable "initial_load_subnet" {
+  type        = string
+  description = "Subnet for the initial load task"
+}
+
+variable "initial_load_sg" {
+  type        = string
+  description = "Security group for the initial load task"
 }

@@ -1,7 +1,7 @@
-output "glue_job_name" {
-  value = aws_glue_job.initial_load.name
+output "task_definition" {
+  value = module.service.task_definition
 }
 
-output "glue_job_arn" {
-  value = aws_glue_job.initial_load.arn
+output "cluster_name" {
+  value = module.service.cluster_name
 }

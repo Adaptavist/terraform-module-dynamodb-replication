@@ -2,6 +2,7 @@ locals {
   initial_workflow_status = var.enabled ? "enabled" : "disabled"
 }
 
+/*
 resource "aws_ssm_parameter" "workflow_status" {
   name  = "/dynamodb_replication/${var.target_account}/${var.target_region}/${var.target_dynamodb_table_name}/workflow_status"
   type  = "String"
@@ -11,18 +12,25 @@ resource "aws_ssm_parameter" "workflow_status" {
     ignore_changes = [value]
   }
 }
+*/
+
+data "aws_ssm_parameter" "workflow_status" {
+  name = "/dynamodb_replication/${var.target_account}/${var.target_region}/${var.target_dynamodb_table_name}/workflow_status"
+}
+
 
 module "initial_load" {
   source = "./modules/initial_load"
 
-  source_dynamodb_table_name = var.source_table_name
   tags                       = var.tags
-  target_account             = var.target_account
-  target_dynamodb_table_name = var.target_dynamodb_table_name
-  target_region              = var.target_region
-  target_role_name           = var.target_role_name
-  glue_number_of_workers     = var.glue_number_of_workers
-  glue_worker_type           = var.glue_worker_type
+  destination_role_arn       = var.target_role_arn
+  destination_table_name     = var.target_dynamodb_table_name
+  log_retention_in_days      = 7
+  cpuUnits                   = 1024
+  memory                     = 2048
+  source_table_name          = var.source_table_name
+  stage                      = var.stage
+  stage_type                 = var.stage_type
 }
 
 module "ongoing_replication" {
@@ -36,7 +44,7 @@ module "ongoing_replication" {
   target_account             = var.target_account
   target_dynamodb_table_name = var.target_dynamodb_table_name
   target_region              = var.target_region
-  target_role_name           = var.target_role_name
+  target_role_name           = var.target_role_arn
 }
 
 module "helper_function" {
@@ -47,8 +55,8 @@ module "helper_function" {
   ongoing_replication_lambda_name       = module.ongoing_replication.lambda_name
   ssm_param_name_source_mapping_uuid    = module.ongoing_replication.ssm_event_source_mapping_uuid
   event_source_mapping_uuid             = module.ongoing_replication.event_source_mapping_uuid
-  ssm_param_name_source_workflow_status = aws_ssm_parameter.workflow_status.name
-  ssm_workflow_status_parameter_arn     = aws_ssm_parameter.workflow_status.arn
+  ssm_param_name_source_workflow_status = data.aws_ssm_parameter.workflow_status.name
+  ssm_workflow_status_parameter_arn     = data.aws_ssm_parameter.workflow_status.arn
   stage                                 = var.stage
   tags                                  = var.tags
   target_account                        = var.target_account
@@ -59,12 +67,14 @@ module "helper_function" {
 module "orchestration" {
   source = "./modules/orchestration"
 
-  glue_job_name              = module.initial_load.glue_job_name
-  glue_job_arn               = module.initial_load.glue_job_arn
   helper_function_name       = module.helper_function.function_name
   helper_lambda_arn          = module.helper_function.function_arn
   target_account             = var.target_account
   target_dynamodb_table_name = var.target_dynamodb_table_name
   target_region              = var.target_region
   tags                       = var.tags
+  initial_load_cluster_name  = module.initial_load.cluster_name
+  initial_load_sg            = var.initial_load_sg
+  initial_load_subnet        = var.initial_load_subnet
+  initial_load_task_def      = module.initial_load.task_definition
 }

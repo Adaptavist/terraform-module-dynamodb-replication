@@ -54,9 +54,13 @@ module "dynamodb_replication" {
   source_table_name          = "GameScores"
   source_table_stream_arn    = aws_dynamodb_table.basic-dynamodb-table.stream_arn
   stage                      = "dev"
+  stage_type                 = "development"
   tags                       = var.tags
   target_account             = var.target_account_number
   target_dynamodb_table_name = "GameScores"
   target_region              = "us-west-2"
-  target_role_name           = var.target_account_role_name
+  target_role_arn           = var.target_account_role_name
+  initial_load_sg            = "some_sg_allowing_dynamo_read"
+  initial_load_subnet        = "some_private_subnet_id"
+
 }

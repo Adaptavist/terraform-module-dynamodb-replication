@@ -1,13 +1,16 @@
 data "aws_region" "this" {}
 
 resource "aws_sfn_state_machine" "sfn_state_machine" {
-  name     = "dynamodb_replication_${var.target_account}_${var.target_region}_${var.target_dynamodb_table_name}"
+  name     = "dynamodb_replication_${var.target_account}_${var.target_region}_${var.target_dynamodb_table_name}-test"
   role_arn = aws_iam_role.step-function-exec.arn
   tags     = var.tags
 
   definition = templatefile("${path.module}/step-function.json", {
     helper_lambda_arn = var.helper_lambda_arn
-    glue_job_name     = var.glue_job_name
+    cluster_name      = var.initial_load_cluster_name
+    task_def          = var.initial_load_task_def
+    subnet            = var.initial_load_subnet
+    sg                = var.initial_load_sg
   })
 }
 
@@ -104,13 +107,26 @@ data "aws_iam_policy_document" "step_function_policy" {
   }
   statement {
     actions = [
-      "glue:StartJobRun",
-      "glue:GetJobRun",
-      "glue:GetJobRuns",
-      "glue:BatchStopJobRun"
+      "ecs:*"
     ]
     resources = [
-      var.glue_job_arn
+      "*"
+    ]
+  }
+  statement {
+    actions = [
+    "events:*"
+    ]
+    resources = [
+      "*"
+    ]
+  }
+  statement {
+    actions = [
+      "iam:PassRole"
+    ]
+    resources = [
+      "*"
     ]
   }
 }

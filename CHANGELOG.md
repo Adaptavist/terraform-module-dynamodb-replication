@@ -1,3 +1,11 @@
+## [1.0.12](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.0.11...v1.0.12) (2021-03-04)
+
+
+### Bug Fixes
+
+* trimming the names ([9d92119](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/commits/9d9211920e0b4161e6d2e608bfd398b420f54fb9))
+* using correct local variable ([1552772](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/commits/15527724edb4a0e1c26ce71f435b17cf522fc1b4))
+
 ## [1.0.11](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.0.10...v1.0.11) (2021-03-04)
 
 

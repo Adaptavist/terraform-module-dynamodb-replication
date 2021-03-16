@@ -42,7 +42,7 @@ data "aws_iam_policy_document" "lambda_policy" {
       "lambda:UpdateEventSourceMapping"
     ]
     resources = [
-      "arn:aws:lambda:${data.aws_region.this.name}:${data.aws_caller_identity.this.account_id}:event-source-mapping:${var.event_source_mapping_uuid}"
+      "*"
     ]
   }
 }

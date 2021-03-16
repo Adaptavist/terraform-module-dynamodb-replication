@@ -1,3 +1,10 @@
+# [1.1.0](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.0.12...v1.1.0) (2021-03-15)
+
+
+### Features
+
+* using ECS instead of Glue ([4225f04](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/commits/4225f0480c40a22e04e09eb6d8c75ee881d9954c))
+
 ## [1.0.12](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.0.11...v1.0.12) (2021-03-04)
 
 

@@ -46,7 +46,7 @@ data "aws_iam_policy_document" "lambda_policy" {
       "sts:AssumeRole"
     ]
     resources = [
-      "arn:aws:iam::${var.target_account}:role/${var.target_role_name}"
+      var.target_role_arn
     ]
   }
   statement {

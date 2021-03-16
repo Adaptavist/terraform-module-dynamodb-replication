@@ -1,3 +1,10 @@
+## [1.1.1](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.1.0...v1.1.1) (2021-03-16)
+
+
+### Bug Fixes
+
+* adding wider permission to update event source mapping ([03fab67](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/commits/03fab670a1fc3efeb67a9a8dd0a5ebe835d98b59))
+
 # [1.1.0](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.0.12...v1.1.0) (2021-03-15)
 
 

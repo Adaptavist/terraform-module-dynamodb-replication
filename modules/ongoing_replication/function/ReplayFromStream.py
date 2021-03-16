@@ -7,18 +7,16 @@ def lambda_handler(event, context):
 
     # Environment Variables
     target_aws_account_num = os.environ['TARGET_AWS_ACCOUNT_NUMBER']
-    target_role_name = os.environ['TARGET_ROLE_NAME']
+    target_role_arn = os.environ['TARGET_ROLE_ARN']
     target_ddb_name = os.environ['TARGET_DYNAMODB_NAME']
     target_ddb_region = os.environ['TARGET_REGION']
-
-    role_arn = "arn:aws:iam::%s:role/%s" % (target_aws_account_num,target_role_name)
 
     print('target aws account: ' + target_aws_account_num)
     print('target region: ' + target_ddb_region)
     print('target table name: ' + target_ddb_name)
-    print('target role arn: ' + role_arn)
+    print('target role arn: ' + target_role_arn)
 
-    sts_response = get_credentials(role_arn)
+    sts_response = get_credentials(target_role_arn)
 
     dynamodb = boto3.client('dynamodb', region_name=target_ddb_region,
                             aws_access_key_id = sts_response['AccessKeyId'],

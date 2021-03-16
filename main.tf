@@ -44,7 +44,7 @@ module "ongoing_replication" {
   target_account             = var.target_account
   target_dynamodb_table_name = var.target_dynamodb_table_name
   target_region              = var.target_region
-  target_role_name           = var.target_role_arn
+  target_role_arn            = var.target_role_arn
 }
 
 module "helper_function" {

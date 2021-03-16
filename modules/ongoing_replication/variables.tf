@@ -13,9 +13,9 @@ variable "target_account" {
   description = "Target AWS Account Number"
 }
 
-variable "target_role_name" {
+variable "target_role_arn" {
   type        = string
-  description = "Target IAM Role name to be assumed by Lambda function and a Glue job"
+  description = "Target IAM Role ARN to be assumed by Lambda function"
 }
 
 variable "source_table_stream_arn" {

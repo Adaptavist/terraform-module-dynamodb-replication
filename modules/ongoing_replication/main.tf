@@ -19,7 +19,7 @@ module "replication-lambda" {
   environment_variables = {
     TARGET_AWS_ACCOUNT_NUMBER = var.target_account
     TARGET_DYNAMODB_NAME      = var.target_dynamodb_table_name
-    TARGET_ROLE_NAME          = var.target_role_name
+    TARGET_ROLE_ARN           = var.target_role_arn
     TARGET_REGION             = var.target_region
   }
   stage = var.stage

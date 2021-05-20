@@ -1,3 +1,10 @@
+## [1.1.4](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.1.3...v1.1.4) (2021-05-20)
+
+
+### Bug Fixes
+
+* improved release step and added checkov ([40e3e13](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/commits/40e3e13110b146a17bdbbb56cad27c6ccf57fe33))
+
 ## [1.1.3](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.1.2...v1.1.3) (2021-03-16)
 
 

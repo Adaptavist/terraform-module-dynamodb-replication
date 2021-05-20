@@ -23,10 +23,14 @@ data "aws_iam_policy_document" "lambda_policy" {
   statement {
     effect = "Allow"
     actions = [
-      "ssm:*"
+      "ssm:Describe*",
+      "ssm:Get*",
+      "ssm:List*",
+      "ssm:Put*"
     ]
     resources = [
-      "*"
+      var.ssm_param_name_source_mapping_uuid,
+      var.ssm_param_name_source_workflow_status
     ]
   }
   statement {

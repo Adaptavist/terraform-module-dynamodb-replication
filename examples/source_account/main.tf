@@ -1,4 +1,7 @@
 resource "aws_dynamodb_table" "basic-dynamodb-table" {
+  #checkov:skip=CKV_AWS_28:this is just a demo
+  #checkov:skip=CKV_AWS_119:this is just a demo
+
   name           = "GameScores"
   billing_mode   = "PROVISIONED"
   read_capacity  = 20

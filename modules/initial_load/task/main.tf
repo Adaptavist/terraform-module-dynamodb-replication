@@ -7,6 +7,7 @@ data "aws_caller_identity" "this" {}
 data "aws_region" "this" {}
 
 resource "aws_ecs_cluster" "this" {
+  #checkov:skip=CKV_AWS_65:This cluster is short lived
   name               = "dynamodb-copy-${var.source_table_name}"
   capacity_providers = ["FARGATE"]
   tags               = var.tags

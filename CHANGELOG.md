@@ -1,3 +1,10 @@
+## [1.1.3](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.1.2...v1.1.3) (2021-03-16)
+
+
+### Bug Fixes
+
+* fixed the issue with the target role ARN ([4b50e2f](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/commits/4b50e2fa0407a6fe645104f1a68c1157bba9ad28))
+
 ## [1.1.2](http://bitbucket.org/adaptavistlabs/module-dynamodb-replication/compare/v1.1.1...v1.1.2) (2021-03-16)
 
 
